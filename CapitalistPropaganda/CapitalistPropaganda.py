@@ -40,8 +40,8 @@ class Materials:
                 'paper' : 0,
                 'groceries' : 0
                 }
-    #time in kg/hr
-    time = {
+    #speed in kg/hr
+    speed = {
         'plastic': 72000000,
         'glass': 6833333,
         'textile' : 496564,
@@ -51,21 +51,49 @@ class Materials:
         'gold' : 408.3,
         'silver' : 2566,
         'wood' : 78869,
-        'porcelain' : 10000,
+        'porcelain' : 316666,
         'rubber' : 3833333,
         'paper' : 84500,
         'groceries' : 1
         }
 
+    #total time to produce each material
+    time = {
+        'plastic': 0,
+        'glass': 0,
+        'textile' : 0,
+        'iron' : 0,
+        'aluminium' : 0,
+        'copper' : 0,
+        'gold' : 0,
+        'silver' : 0,
+        'wood' : 0,
+        'porcelain' : 0,
+        'rubber' : 0,
+        'paper' : 0,
+        'groceries' : 0
+        }
+
     def get_mat_qtt(self, material : str):
         return self.quantities[material]
+
+    def get_mat_speed(self, material : str):
+        return self.speed[material]
+
+    def add_mat(self, material : str, qtt):
+        self.quantities[material] += qtt
+
+    def add_time(self, material : str, add_time):
+        self.time[material] += add_time
 
     def get_mat_time(self, material : str):
         return self.time[material]
 
-    def add_mat(self, material : str, qtt):
-        self.quantities[material] += qtt
-    
+
+    def __getitem__(self, material : str): #handles the [] operator
+        qtt = self.quantities[material]
+        time = self.speed[material]
+        return (qtt, time)
 
 
 # lists with keywords for searching specific gifts
@@ -213,3 +241,12 @@ print(MatL.get_mat_qtt('plastic'))
 
 ##################################################################################
 #material times here
+
+M_Names = ['plastic','glass','textile','iron','aluminium','copper', 'gold','silver', 'wood', 'porcelain','rubber', 'paper','groceries']
+
+for material in M_Names:
+    buffer = MatL[material]
+    #print(buffer)
+    t_buffer = MatL.get_mat_qtt(material) / MatL.get_mat_speed(material)
+    MatL.add_time(material, t_buffer)
+    print(f"The production time of {material} is: {MatL.get_mat_time(material)}")
