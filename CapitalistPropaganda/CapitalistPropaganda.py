@@ -247,6 +247,6 @@ M_Names = ['plastic','glass','textile','iron','aluminium','copper', 'gold','silv
 for material in M_Names:
     buffer = MatL[material]
     #print(buffer)
-    t_buffer = MatL.get_mat_qtt(material) / 1000 / MatL.get_mat_speed(material)
+    t_buffer = MatL[material][0] / 1000 / MatL[material][1]
     MatL.add_time(material, t_buffer)
     print(f"The production time of {material} is: {MatL.get_mat_time(material)}")
